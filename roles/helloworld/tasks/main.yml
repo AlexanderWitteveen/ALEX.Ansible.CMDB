@@ -1,0 +1,10 @@
+---
+
+- name: Hello World
+  shell: |
+    echo hello world
+  args:
+    executable: /bin/bash
+  vars:
+    ansible_connection: local
+  become: false
