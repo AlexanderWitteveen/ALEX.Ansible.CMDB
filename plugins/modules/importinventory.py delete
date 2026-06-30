@@ -1,0 +1,53 @@
+'''
+Documentation:
+    Description: This is a demo description.
+    
+    Parameter: This is a demo parameter.
+'''
+
+from ansible.module_utils.basic import AnsibleModule     
+# from ansible.inventory.manager import InventoryManager
+# from ansible.parsing.dataloader import DataLoader
+# from ansible.vars.manager import VariableManager
+# from ansible.module_utils._text import to_bytes, to_native   
+# import csv
+from pymongo import MongoClient
+
+def main():
+    module_args = dict(
+        environmentid=dict(required=True, type='str'),
+        ipaddress=dict(required=True, type='str'),
+        username=dict(required=True, type='str'),
+        password=dict(required=True, type='str', no_log=True),
+        inventory=dict(required=True, type='list'),
+    )                                             
+    module = AnsibleModule(                             
+        argument_spec=module_args,                
+        supports_check_mode=False                 
+    )
+    environmentid = module.params['environmentid']
+    ipaddress = module.params['ipaddress']
+    username = module.params['username']
+    password = module.params['password']
+    inventory = module.params['inventory']
+    connectionstring="mongodb://" + username + ":" + password + "@" + ipaddress + ":27017/?tls=true&tlsInsecure=true&authSource=admin"
+    writer=MongoClient(connectionstring)
+    db=writer["cmdb-" + environmentid]
+
+    p_module = []
+
+    p_module.append({"host": str(inventory)})
+
+    result = dict(
+        changed=True,
+        environmentid=environmentid,
+        p_module=str(p_module),
+        # d_module=module,
+        # d_task=module.task,
+        # d_context=module.play_context,
+        # d_loader=module.loader,
+    )
+    module.exit_json(**result)
+
+if __name__ == '__main__':
+    main()

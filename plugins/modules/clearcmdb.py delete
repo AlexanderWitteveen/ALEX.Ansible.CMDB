@@ -1,0 +1,48 @@
+#!/usr/bin/python
+# #!/usr/bin/env python3
+
+'''
+Documentation:
+    Description: This is a demo description.
+    
+    Parameter: This is a demo parameter.
+'''
+
+from ansible.module_utils.basic import AnsibleModule        
+# from ansible.module_utils._text import to_bytes, to_native   
+# import csv
+from pymongo import MongoClient
+
+def main():
+    module_args = dict(
+        environmentid=dict(required=True, type='str'),
+        ipaddress=dict(required=True, type='str'),
+        username=dict(required=True, type='str'),
+        password=dict(required=True, type='str', no_log=True),
+    )                                             
+    module = AnsibleModule(                             
+        argument_spec=module_args,                
+        supports_check_mode=False                 
+    )                                             
+    environmentid = module.params['environmentid']
+    ipaddress = module.params['ipaddress']
+    username = module.params['username']
+    password = module.params['password']
+
+    connectionstring="mongodb://" + username + ":" + password + "@" + ipaddress + ":27017/?tls=true&tlsInsecure=true&authSource=admin"
+    writer=MongoClient(connectionstring)
+    db=writer["cmdb-" + environmentid]
+
+
+    result = dict(
+        changed=True,
+        environmentid=environmentid,
+        ipaddress=ipaddress,
+        username=username,
+    )
+    module.exit_json(**result)
+
+if __name__ == '__main__':
+    main()
+
+

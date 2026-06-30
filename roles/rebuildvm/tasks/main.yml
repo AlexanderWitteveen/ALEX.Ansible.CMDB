@@ -1,0 +1,11 @@
+---
+
+- ansible.builtin.include_role:
+    name: alex.debian13.rebuildvm
+
+- ansible.builtin.include_role: # upload files
+    name: alex.nodered.installnodered
+
+- ansible.builtin.include_role:
+    name: alex.mongodb.installmongodb
+

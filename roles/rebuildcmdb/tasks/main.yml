@@ -1,0 +1,12 @@
+---
+
+- ansible.builtin.include_role:
+    name: alex.cmdb.clearcmdb
+
+- ansible.builtin.include_role:
+    name: alex.cmdb.importmasterdata
+
+- ansible.builtin.include_role:
+    name: alex.cmdb.importinventory
+
+
