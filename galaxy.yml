@@ -2,7 +2,7 @@ namespace: alex
 
 name: cmdb
 
-version: 0.1.6
+version: 0.1.7
 ## TODO Autiomate using the build command
 
 readme: README.md

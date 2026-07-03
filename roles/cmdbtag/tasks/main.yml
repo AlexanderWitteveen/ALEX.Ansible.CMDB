@@ -1,21 +1,9 @@
 ---
 
-- name: Ensure CMDB folder exists
-  file:
-    path: "/{{ prop_basename }}/cmdb"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-  vars:
-    ansible_connection: "{{ prop_ansible_connection }}"
-    ansible_host: "{{ prop_host.ipaddress }}"
-  become: true
-
 - name: Copy cmdb tag template to host
   ansible.builtin.template:
     src: "tag.yml.j2"
-    dest: "/{{ prop_basename }}/cmdb/cmdbtag.yml"
+    dest: "/{{ prop_basename }}/config/cmdbtag.yml"
     owner: root
     group: root
     mode: 0755
